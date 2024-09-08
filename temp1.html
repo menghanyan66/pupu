@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKU 邮箱验证</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        input[type="email"] {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"].valid {
+            border-color: green;
+        }
+
+        input[type="email"].invalid {
+            border-color: red;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        .uid-display {
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #333;
+                color: #f0f0f0;
+            }
+            button {
+                background-color: #007bff;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>HKU 邮箱验证</h1>
+    <input type="email" id="emailInput" placeholder="请输入 HKU 邮箱" />
+    <button id="submitButton" disabled>提交</button>
+    <div class="uid-display" id="uidDisplay"></div>
+
+    <script>
+        const emailInput = document.getElementById('emailInput');
+        const submitButton = document.getElementById('submitButton');
+        const uidDisplay = document.getElementById('uidDisplay');
+
+        emailInput.addEventListener('input', () => {
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@(connect\.hku\.hk|hku\.hk)$/;
+            const email = emailInput.value;
+
+            if (emailPattern.test(email)) {
+                emailInput.classList.remove('invalid');
+                emailInput.classList.add('valid');
+                submitButton.disabled = false;
+            } else {
+                emailInput.classList.remove('valid');
+                emailInput.classList.add('invalid');
+                submitButton.disabled = true;
+            }
+        });
+
+        submitButton.addEventListener('click', () => {
+            const email = emailInput.value;
+            const uid = email.split('@')[0];
+            uidDisplay.textContent = `UID: ${uid}`;
+        });
+    </script>
+
+</body>
+</html>
